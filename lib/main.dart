@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:track_jira_task/src/core/env/env.dart';
+import 'injection_container.dart' as di;
+import 'injection_container.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
+  sl.registerLazySingleton(() => Env(EnvMode.sandbox));
 
-void main() {
   runApp(const MyApp());
 }
 
