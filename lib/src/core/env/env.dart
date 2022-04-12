@@ -1,17 +1,15 @@
-import 'package:flagsmith/flagsmith.dart';
-
 class Env {
   final EnvMode m;
-  late FlagsmithClient flagsmithClient;
+  //late FlagsmithClient flagsmithClient;
   Env(this.m){
     _initializeFlags();
   }
 
-  static final String pathUrlImage = "https://api.yourmarket.app";
-  static final String pathUrlAws = "https://your-market-empresa.s3.amazonaws.com";
+  //static final String pathUrlImage = "https://api.yourmarket.app";
+  //static final String pathUrlAws = "https://your-market-empresa.s3.amazonaws.com";
 
-  static final String _apiProduction = "https://test.miconjuntodigital.com";
-  static final String _apiSandbox = "https://test.miconjuntodigital.com";
+  static final String _apiProduction = "https://tribugbp.atlassian.net";
+  static final String _apiSandbox = "https://tribugbp.atlassian.net";
   static final String _apiLocal = "http://192.168.10.169:8001";
 
   String get api {
@@ -58,12 +56,12 @@ class Env {
     }
   }
 
-  FlagsmithClient get flag {
+  /*FlagsmithClient get flag {
     return flagsmithClient;
-  }
+  }*/
 
   Future<void >_initializeFlags() async {
-    String apikey = "iEnBDC45XuWyhqZmNXFebR";
+    /*String apikey = "iEnBDC45XuWyhqZmNXFebR";
     if(m == EnvMode.production){
       apikey = "YzFRgWadZS3BHRaJnn9rWR";
     }
@@ -77,7 +75,7 @@ class Env {
         Flag.seed('feature', enabled: true),
       ],
     );
-    await flagsmithClient.getFeatureFlags(reload: true);
+    await flagsmithClient.getFeatureFlags(reload: true);*/
   }
 }
 

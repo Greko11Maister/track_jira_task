@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -6,15 +8,24 @@ import 'package:dio/dio.dart';
 class AppInterceptors extends Interceptor {
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    List noRequiresAuthentication = [];
+    // List noRequiresAuthentication = [];
+    //
+    // int requiresToken = noRequiresAuthentication.indexWhere((endpoint) => RegExp(endpoint, multiLine: true).hasMatch(options.path));
+    //
+    // if (requiresToken == -1) {
+    //  // final resp = await sl<GetMainTokenUseCase>().call(NoParams());
+    //   String token = /*resp.fold<String>((l) => '', (r) => r ?? '');*/ "";
+    //   options.headers.addAll({"Authorization": "Bearer $token"});
+    // }
 
-    int requiresToken = noRequiresAuthentication.indexWhere((endpoint) => RegExp(endpoint, multiLine: true).hasMatch(options.path));
+    String username = 'gregory.iscala@tribu.team';
+    String password = 'HjAaPXrDNSWOfjFGZBvgF94E';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    //options.headers.addAll({"Authorization": "Bearer $basicAuth"});
+    log('$basicAuth', name: 'Token');
+    options.headers.addAll({"Authorization": basicAuth});
 
-    if (requiresToken == -1) {
-     // final resp = await sl<GetMainTokenUseCase>().call(NoParams());
-      String token = /*resp.fold<String>((l) => '', (r) => r ?? '');*/ "";
-      options.headers.addAll({"Authorization": "Bearer $token"});
-    }
 
     return super.onRequest(options, handler);
   }
