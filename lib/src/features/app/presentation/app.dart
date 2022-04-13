@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:track_jira_task/src/features/app/presentation/pages/home_page.dart';
+import 'package:track_jira_task/src/features/app/presentation/pages/project_page.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -18,11 +19,12 @@ class App extends StatelessWidget {
             //     primaryColor: const Color(0xff0277BD), fontFamily: 'Rubik'),
             initialRoute: HomePage.routeName,
             getPages: [
-              GetPage(name: '/Home', page: () => HomePage()),
-              // GetPage(
-              //     name: InletPage.routeName,
-              //     page: () => InletPage(),
-              //     binding: InletBinding()),
+              GetPage(
+                  name: '/Home',
+                  page: () => HomePage()),
+              GetPage(
+                  name: '/Project',
+                  page: () => ProjectPage()),
             ],
           );
         });

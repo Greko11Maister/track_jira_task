@@ -7,6 +7,7 @@ import 'package:track_jira_task/injection_container.dart';
 import 'package:track_jira_task/src/core/settings/app_colors.dart';
 import 'package:track_jira_task/src/core/settings/app_text_style.dart';
 import 'package:track_jira_task/src/features/app/presentation/controllers/home_controller.dart';
+import 'package:track_jira_task/src/features/app/presentation/pages/project_page.dart';
 import 'package:track_jira_task/src/features/app/presentation/widgets/card_project.dart';
 import 'package:track_jira_task/src/features/domain/entities/projects_entity.dart';
 
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
           centerTitle: true,
           elevation: 1,
-          title: const Text('Proyectos', style: TextStyle(color: Colors.black87)),
+          title: const Text('Proyectos Jira', style: TextStyle(color: Colors.black87)),
           backgroundColor: Colors.white54),
       body: RefreshIndicator(
         onRefresh: _controller.loadProjects,
@@ -31,9 +32,35 @@ class HomePage extends StatelessWidget {
             GetBuilder<HomeController>(
                 init: _controller,
                 builder: (_) {
-                  return projectsTypeAhead(_);
+                  return Column(
+                    children: [
+                      projectsTypeAhead(_),
+                      const SizedBox(height: 20),
+                    ],
+                  );
                   //return listProject(_);
                 }),
+
+            /*GetBuilder<HomeController>(
+              init: _controller,
+              builder: (_) {
+                if(_.issues.isNotEmpty) {
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _.issues.length,
+                    itemBuilder: (ctx, i) {
+                      return ListTile(
+                        //leading: Text(_.issues[i].name!, style: TextStyle(color: Colors.blue)),
+                        title: Text(_.issues[i].description!),
+                        //trailing: CircleAvatar(backgroundImage: NetworkImage('https://colonce.edu.co/web/wp-content/uploads/2020/06/plan-de-vida.png')),
+                      );
+                    }
+                );
+                }
+                return SizedBox();
+              }
+            ),*/
           ],
         ),
       ),
@@ -84,7 +111,7 @@ class HomePage extends StatelessWidget {
                               suggestion.avatarUrls?.avatar24 ?? '',
                               headers: {
                                 'authorization':
-                                    'Basic Z3JlZ29yeS5pc2NhbGFAdHJpYnUudGVhbTpiYXNzWktmOTNrNjdrdjVYTE9Ca0EzQjc='
+                                    'Basic Z3JlZ29yeS5pc2NhbGFAdHJpYnUudGVhbTp6MGhpbzd2QUoxazAyQm1RNks0bjBFNzk='
                               }),
                           radius: 20.0,
                         ),
@@ -93,6 +120,7 @@ class HomePage extends StatelessWidget {
                     },
                     onSuggestionSelected: (ProjectsEntity suggestion) {
                       _.setProjectSelected = suggestion;
+
                     },
                     suggestionsCallback: (pattern) async {
                       return _.projects
@@ -138,18 +166,18 @@ class HomePage extends StatelessWidget {
                 );
   }
 
-  ListView listProject(HomeController _) {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: _.projects.length,
-        itemBuilder: (ctx, i) {
-           log('${_.projects[i].name}',  name: 'NOMBRE:');
-           log('${_.projects[i].avatarUrls?.avatar24}',  name: 'URL:');
-          return CardProject(
-            name: _.projects[i].name ?? '',
-            avatarUrls: _.projects[i].avatarUrls?.avatar24 ?? '',
-          );
-        });
-  }
+  // ListView listProject(HomeController _) {
+  //   return ListView.builder(
+  //       shrinkWrap: true,
+  //       physics: const NeverScrollableScrollPhysics(),
+  //       itemCount: _.projects.length,
+  //       itemBuilder: (ctx, i) {
+  //          log('${_.projects[i].name}',  name: 'NOMBRE:');
+  //          log('${_.projects[i].avatarUrls?.avatar24}',  name: 'URL:');
+  //         return CardProject(
+  //           name: _.projects[i].name ?? '',
+  //           avatarUrls: _.projects[i].avatarUrls?.avatar24 ?? '',
+  //         );
+  //       });
+  // }
 }
