@@ -7,7 +7,6 @@ import 'package:track_jira_task/injection_container.dart';
 import 'package:track_jira_task/src/core/settings/app_colors.dart';
 import 'package:track_jira_task/src/core/settings/app_text_style.dart';
 import 'package:track_jira_task/src/features/app/presentation/controllers/home_controller.dart';
-import 'package:track_jira_task/src/features/app/presentation/pages/project_page.dart';
 import 'package:track_jira_task/src/features/app/presentation/widgets/card_project.dart';
 import 'package:track_jira_task/src/features/domain/entities/projects_entity.dart';
 
@@ -30,37 +29,43 @@ class HomePage extends StatelessWidget {
         child: ListView(
           children: [
             GetBuilder<HomeController>(
+
                 init: _controller,
                 builder: (_) {
                   return Column(
                     children: [
                       projectsTypeAhead(_),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10), // if(_.isProjectsLoading.value) return Center(child: CircularProgressIndicator(),);
+                      ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: _.issues.length,
+                              itemBuilder: (ctx, i) {
+                                return Card(
+                                  margin: EdgeInsets.all(1),
+                                  elevation: 0.3,
+                                  // color: Color(0xffEFF4F6),
+                                  child: ListTile(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+                                    horizontalTitleGap: 15,
+                                    focusColor: Colors.blue,
+                                    leading: Text(_.issues[i].name!,
+                                        style: TextStyle(color: Colors.blue)),
+                                    title: Text(_.issues[i].description!),
+                                    onTap: (){
+                                      
+                                    },
+                                    // trailing: CircleAvatar(backgroundImage: NetworkImage(_.issues[i].img!)),
+                                  ),
+                                );
+                                // log('${_.issues[i].img}', name: 'IMG');
+                              }
+                      )
+                  //} //else if
                     ],
                   );
                   //return listProject(_);
                 }),
-
-            /*GetBuilder<HomeController>(
-              init: _controller,
-              builder: (_) {
-                if(_.issues.isNotEmpty) {
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _.issues.length,
-                    itemBuilder: (ctx, i) {
-                      return ListTile(
-                        //leading: Text(_.issues[i].name!, style: TextStyle(color: Colors.blue)),
-                        title: Text(_.issues[i].description!),
-                        //trailing: CircleAvatar(backgroundImage: NetworkImage('https://colonce.edu.co/web/wp-content/uploads/2020/06/plan-de-vida.png')),
-                      );
-                    }
-                );
-                }
-                return SizedBox();
-              }
-            ),*/
           ],
         ),
       ),
@@ -111,7 +116,7 @@ class HomePage extends StatelessWidget {
                               suggestion.avatarUrls?.avatar24 ?? '',
                               headers: {
                                 'authorization':
-                                    'Basic Z3JlZ29yeS5pc2NhbGFAdHJpYnUudGVhbTp6MGhpbzd2QUoxazAyQm1RNks0bjBFNzk='
+                                    'Basic Z3JlZ29yeS5pc2NhbGFAdHJpYnUudGVhbTp3TTdHRllKY1h3QUdTcmlaMDhJQTJDMkU='
                               }),
                           radius: 20.0,
                         ),

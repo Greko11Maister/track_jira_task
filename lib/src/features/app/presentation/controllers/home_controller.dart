@@ -38,13 +38,11 @@ class HomeController extends GetxController {
 
   set setProjectSelected(ProjectsEntity value) {
       projectsCtrl.text = value.name!;
-      // id = value.id;
+       // id = value.id;
       loadIssues(value.id!);
-      // log();
+      // log('${value.id}', name: 'ID del project');
     update();
   }
-
-
 
   Future<void> loadProjects()async{
     isProjectsLoading.value = true;
@@ -61,12 +59,13 @@ class HomeController extends GetxController {
   }
 
   Future<void> loadIssues(String projectId) async{
+    print(projectId);
     ProjectDTO params = ProjectDTO(id: projectId);
     final res = await _getIssuesUseCase.call(params);
-
     res.fold((l) {
-      log('$l', name: 'Error Projects');
+      log('$l', name: 'Error Issues');
     }, (r) {
+      issues.clear();
       issues.addAll(r);
       update();
     });

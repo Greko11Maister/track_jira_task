@@ -30,11 +30,12 @@ class ProjectRemoteDataSourceImpl extends ApiProvider implements ProjectRemoteDa
     try{
       final res = await dio!.get('/rest/api/3/issue/picker', queryParameters: params.queryParameters);
       log('$res', name: 'Issues');
-      return (res.data["sections"] ["issues"] as List)
+      return (res.data ["sections"][0] ["issues"] as List)
           .map((e) => IssuesModel.fromJson(e))
           .toList();
     }on DioError catch (error) {
       throw ServerFailure(error: error).extract;
+
     }
   }
 
