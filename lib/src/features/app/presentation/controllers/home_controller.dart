@@ -21,6 +21,8 @@ class HomeController extends GetxController {
   RxList<ProjectsEntity> projects = <ProjectsEntity>[].obs;
   RxList<IssuesEntity> issues = <IssuesEntity>[].obs;
 
+  IssuesEntity? issuesEntity;
+
   RxBool isProjectsLoading = false.obs;
 
 
@@ -69,6 +71,11 @@ class HomeController extends GetxController {
       issues.addAll(r);
       update();
     });
+  }
+
+  void getIssueData(){
+    var item = issues.firstWhere((e) => Get.arguments==e.id);
+    issuesEntity = item;
   }
 
 }

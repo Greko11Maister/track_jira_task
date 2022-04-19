@@ -7,6 +7,7 @@ import 'package:track_jira_task/injection_container.dart';
 import 'package:track_jira_task/src/core/settings/app_colors.dart';
 import 'package:track_jira_task/src/core/settings/app_text_style.dart';
 import 'package:track_jira_task/src/features/app/presentation/controllers/home_controller.dart';
+import 'package:track_jira_task/src/features/app/presentation/pages/issues_page.dart';
 import 'package:track_jira_task/src/features/app/presentation/widgets/card_project.dart';
 import 'package:track_jira_task/src/features/domain/entities/projects_entity.dart';
 
@@ -53,7 +54,9 @@ class HomePage extends StatelessWidget {
                                         style: TextStyle(color: Colors.blue)),
                                     title: Text(_.issues[i].description!),
                                     onTap: (){
-                                      
+                                      Get.to(()=> IssuesPage(),arguments:_.issues[i].id);
+                                      _.getIssueData();
+                                      // print(_.issues[i].id);
                                     },
                                     // trailing: CircleAvatar(backgroundImage: NetworkImage(_.issues[i].img!)),
                                   ),
@@ -116,7 +119,7 @@ class HomePage extends StatelessWidget {
                               suggestion.avatarUrls?.avatar24 ?? '',
                               headers: {
                                 'authorization':
-                                    'Basic Z3JlZ29yeS5pc2NhbGFAdHJpYnUudGVhbTp3TTdHRllKY1h3QUdTcmlaMDhJQTJDMkU='
+                                    'Basic Z3JlZ29yeS5pc2NhbGFAdHJpYnUudGVhbTpYbU9rTUd3Sjl6SEYxbjdxTlAyOEY4ODY='
                               }),
                           radius: 20.0,
                         ),

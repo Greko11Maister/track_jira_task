@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:track_jira_task/src/features/app/presentation/pages/home_page.dart';
+import 'package:track_jira_task/src/features/app/presentation/pages/issues_page.dart';
 
 
 class App extends StatelessWidget {
@@ -22,9 +23,9 @@ class App extends StatelessWidget {
               GetPage(
                   name: '/Home',
                   page: () => HomePage()),
-              // GetPage(
-              //     name: '/Project',
-              //     page: () => ProjectPage()),
+              GetPage(
+                  name: '/Issues',
+                  page: () => IssuesPage()),
             ],
           );
         });
