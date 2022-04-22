@@ -61,7 +61,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> loadIssues(String projectId) async{
-    print(projectId);
+    // print(projectId);
     ProjectDTO params = ProjectDTO(id: projectId);
     final res = await _getIssuesUseCase.call(params);
     res.fold((l) {

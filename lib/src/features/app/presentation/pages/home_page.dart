@@ -7,13 +7,17 @@ import 'package:track_jira_task/injection_container.dart';
 import 'package:track_jira_task/src/core/settings/app_colors.dart';
 import 'package:track_jira_task/src/core/settings/app_text_style.dart';
 import 'package:track_jira_task/src/features/app/presentation/controllers/home_controller.dart';
-import 'package:track_jira_task/src/features/app/presentation/pages/issues_page.dart';
+import 'package:track_jira_task/src/features/app/presentation/controllers/timer_controller.dart';
+import 'package:track_jira_task/src/features/app/presentation/pages/configuration_page.dart';
+import 'package:track_jira_task/src/features/app/presentation/pages/timer_page.dart';
+import 'package:track_jira_task/src/features/app/presentation/widgets/build_time.dart';
 import 'package:track_jira_task/src/features/app/presentation/widgets/card_project.dart';
 import 'package:track_jira_task/src/features/domain/entities/projects_entity.dart';
 
 class HomePage extends StatelessWidget {
+  final TimerController _timerController = Get.find<TimerController>();
   final HomeController _controller = sl<HomeController>();
-  static const String routeName = '/Home';
+  static const String routeName = '/home/page';
 
   HomePage({Key? key}) : super(key: key);
 
@@ -21,10 +25,22 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // title: const Text('Proyectos Jira', style: TextStyle(color: Colors.black87)),
+        actions: [
+          const SizedBox(width: 10),
+          FittedBox(child: buildTime()),
+          FloatingActionButton.small(
+
+            backgroundColor: Colors.white,
+            child: Icon(Icons.settings, color: Colors.black87),
+              onPressed: (){
+              Get.to(()=>ConfigurationPage());
+              })
+        ],
           centerTitle: true,
           elevation: 1,
-          title: const Text('Proyectos Jira', style: TextStyle(color: Colors.black87)),
-          backgroundColor: Colors.white54),
+          backgroundColor: Color(0xffEBF2F4)
+      ),
       body: RefreshIndicator(
         onRefresh: _controller.loadProjects,
         child: ListView(
@@ -43,19 +59,20 @@ class HomePage extends StatelessWidget {
                               itemCount: _.issues.length,
                               itemBuilder: (ctx, i) {
                                 return Card(
-                                  margin: EdgeInsets.all(1),
+                                  margin: const EdgeInsets.all(1),
                                   elevation: 0.3,
                                   // color: Color(0xffEFF4F6),
                                   child: ListTile(
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 15.0),
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 15.0),
                                     horizontalTitleGap: 15,
                                     focusColor: Colors.blue,
                                     leading: Text(_.issues[i].name!,
-                                        style: TextStyle(color: Colors.blue)),
+                                        style: const TextStyle(color: Colors.blue)),
                                     title: Text(_.issues[i].description!),
                                     onTap: (){
-                                      Get.to(()=> IssuesPage(),arguments:_.issues[i].id);
-                                      _.getIssueData();
+                                      // Get.to(()=> TimerPage(),arguments: _.issues[i]);
+                                      Get.to(()=>TimerPage(data:_.issues[i]));
+                                      // _.getIssueData();
                                       // print(_.issues[i].id);
                                     },
                                     // trailing: CircleAvatar(backgroundImage: NetworkImage(_.issues[i].img!)),
@@ -119,7 +136,7 @@ class HomePage extends StatelessWidget {
                               suggestion.avatarUrls?.avatar24 ?? '',
                               headers: {
                                 'authorization':
-                                    'Basic Z3JlZ29yeS5pc2NhbGFAdHJpYnUudGVhbTpYbU9rTUd3Sjl6SEYxbjdxTlAyOEY4ODY='
+                                    'Basic Z3JlZ29yeS5pc2NhbGFAdHJpYnUudGVhbTp2aFNFS1llZm13Z2FWVGZKVVkyRTI3MzU='
                               }),
                           radius: 20.0,
                         ),

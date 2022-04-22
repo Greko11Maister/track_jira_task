@@ -19,11 +19,11 @@ class AppInterceptors extends Interceptor {
     // }
 
     String username = 'gregory.iscala@tribu.team';
-    String password = 'XmOkMGwJ9zHF1n7qNP28F886';
+    String password = 'vhSEKYefmwgaVTfJUY2E2735';
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
-    log('$basicAuth', name: 'Token');
+    // log('$basicAuth', name: 'Token');
     options.headers.addAll({"Authorization": basicAuth});
 
 

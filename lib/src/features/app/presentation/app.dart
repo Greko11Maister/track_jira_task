@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:track_jira_task/injection_container.dart';
+import 'package:track_jira_task/src/features/app/presentation/controllers/timer_controller.dart';
+import 'package:track_jira_task/src/features/app/presentation/pages/configuration_page.dart';
 import 'package:track_jira_task/src/features/app/presentation/pages/home_page.dart';
-import 'package:track_jira_task/src/features/app/presentation/pages/issues_page.dart';
+import 'package:track_jira_task/src/features/app/presentation/pages/timer_page.dart';
 
 
 class App extends StatelessWidget {
@@ -10,6 +13,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(sl<TimerController>());
+
     return ScreenUtilInit(
         designSize: const Size(360, 780),
         builder: () {
@@ -21,11 +26,14 @@ class App extends StatelessWidget {
             initialRoute: HomePage.routeName,
             getPages: [
               GetPage(
-                  name: '/Home',
+                  name: HomePage.routeName,
                   page: () => HomePage()),
+             /* GetPage(
+                  name: TimerPage.routeName,
+                  page: () => TimerPage()),*/
               GetPage(
-                  name: '/Issues',
-                  page: () => IssuesPage()),
+                  name: ConfigurationPage.routeName,
+                  page: () => ConfigurationPage()),
             ],
           );
         });

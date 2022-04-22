@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
+import 'package:track_jira_task/src/features/app/presentation/controllers/configuration_controller.dart';
 import 'package:track_jira_task/src/features/app/presentation/controllers/home_controller.dart';
+import 'package:track_jira_task/src/features/app/presentation/controllers/timer_controller.dart';
 import 'package:track_jira_task/src/features/data/datasource/project_remote_data_source.dart';
 import 'package:track_jira_task/src/features/data/repositories/projects_repository_impl.dart';
 import 'package:track_jira_task/src/features/domain/repositories/projects_repository.dart';
@@ -13,6 +15,11 @@ Future<void> init() async {
   sl.registerFactory(() => HomeController(
       getProjectUseCase: sl(),
       getIssuesUseCase: sl()));
+
+  sl.registerFactory(() => TimerController());
+
+  sl.registerFactory(() => ConfigurationController());
+
   //Use Cases
   sl.registerLazySingleton(() => GetProjectUseCase(sl()));
   sl.registerLazySingleton(() => GetIssuesUseCase(sl()));
