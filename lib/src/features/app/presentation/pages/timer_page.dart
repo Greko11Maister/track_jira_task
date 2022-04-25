@@ -21,14 +21,14 @@ class TimerPage extends StatelessWidget {
           GetBuilder<TimerController>(
             builder: (_) {
               return Visibility(
-                  visible: _.issueRunning != null && data.id != _.issueRunning?.id,
+                  visible: _.timerRunning.value != false && data.id != _.issueRunning?.id,
                   child: FittedBox(child: buildTime())
               );
             }
           ),
         ],
           centerTitle: true,
-          elevation: 1,
+          elevation: 0,
           backgroundColor: Color(0xffEBF2F4),
       ),
       body:Container(
@@ -94,6 +94,8 @@ class TimerPage extends StatelessWidget {
                                 onPressed: () {
                                   _.startTimer(issueRunning:  data);
                                   _.timerRunning.value = true;
+                                  // final initDate = DateTime.now();
+                                  // print('inicio incidencia ${data.name} : ${initDate}');
                                 }),
                           ),
                         ),
@@ -115,7 +117,8 @@ class TimerPage extends StatelessWidget {
                                 _.stopTimer();
                                 _.reset();
                                 _.timerRunning.value = false;
-                                Get.to(()=>HomePage());
+                                // final endDate = DateTime.now();
+                                // print('Fin incidencia ${data.name} : ${endDate}');
                               }
                           ),
                         ),

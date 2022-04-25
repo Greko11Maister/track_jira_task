@@ -10,6 +10,7 @@ import 'package:track_jira_task/src/features/domain/entities/projects_entity.dar
 import 'package:track_jira_task/src/features/domain/usecases/get_issues_usecase.dart';
 import 'package:track_jira_task/src/features/domain/usecases/get_projects_usecase.dart';
 
+
 class HomeController extends GetxController {
   final GetProjectUseCase _getProjectUseCase;
   final GetIssuesUseCase _getIssuesUseCase;
@@ -28,15 +29,17 @@ class HomeController extends GetxController {
 
   HomeController({
     required GetProjectUseCase getProjectUseCase,
-    required GetIssuesUseCase getIssuesUseCase,
+    required GetIssuesUseCase getIssuesUseCase
   }) : _getProjectUseCase = getProjectUseCase,
   _getIssuesUseCase= getIssuesUseCase;
 
   @override
   void onReady() {
+
      loadProjects();
     super.onReady();
   }
+
 
   set setProjectSelected(ProjectsEntity value) {
       projectsCtrl.text = value.name!;

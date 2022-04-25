@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:track_jira_task/injection_container.dart';
 import 'package:track_jira_task/src/features/app/presentation/controllers/configuration_controller.dart';
+import 'package:track_jira_task/src/features/app/presentation/controllers/timer_controller.dart';
+import 'package:track_jira_task/src/features/app/presentation/pages/home_page.dart';
 
 class ConfigurationPage extends StatelessWidget {
+  // final TimerController _timerController = Get.find<TimerController>();
   static const String routeName = '/configuration/page';
   final ConfigurationController _controller = sl<ConfigurationController>();
 
@@ -23,7 +26,7 @@ class ConfigurationPage extends StatelessWidget {
             padding: EdgeInsets.all(30),
             child: Column(
               children: [
-                TextField(
+                TextFormField(
                   controller: _.tokenCtrl,
                   autocorrect: false,
                   keyboardType: TextInputType.text,
@@ -45,7 +48,11 @@ class ConfigurationPage extends StatelessWidget {
                       height: 50,
                       child: const Center(child: Text('Setear Token',style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),)),
                     ),
-                    onPressed: (){}
+                    onPressed: (){
+                    _.saveToken(_.tokenCtrl.text);
+                    Get.to(HomePage());
+                    // print(_.tokenCtrl.text);
+                    }
                 )
               ],
             ),

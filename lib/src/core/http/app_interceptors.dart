@@ -3,6 +3,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:track_jira_task/injection_container.dart';
+import 'package:track_jira_task/src/core/usecases/usecase.dart';
+import 'package:track_jira_task/src/features/domain/usecases/get_token_use_case.dart';
 
 
 class AppInterceptors extends Interceptor {
@@ -13,15 +16,18 @@ class AppInterceptors extends Interceptor {
     // int requiresToken = noRequiresAuthentication.indexWhere((endpoint) => RegExp(endpoint, multiLine: true).hasMatch(options.path));
     //
     // if (requiresToken == -1) {
-    //  // final resp = await sl<GetMainTokenUseCase>().call(NoParams());
-    //   String token = /*resp.fold<String>((l) => '', (r) => r ?? '');*/ "";
+      // final resp = await sl<GetMainTokenUseCase>().call(NoParams());
+      // String token = /*resp.fold<String>((l) => '', (r) => r ?? '');*/ "";
     //   options.headers.addAll({"Authorization": "Bearer $token"});
     // }
 
     String username = 'gregory.iscala@tribu.team';
-    String password = 'vhSEKYefmwgaVTfJUY2E2735';
-    String basicAuth =
-        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    final res = await sl<GetTokenUseCase>().call(NoParams());
+    var pass = res.fold((l) => null, (r) => r ?? '');
+    String password = 'bbnFKSCNGSnDWPaOz5msF844';
+    // log('$pass', name: 'pass hive');
+    // log('$password', name: 'password');
+    String basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$pass'));
 
     // log('$basicAuth', name: 'Token');
     options.headers.addAll({"Authorization": basicAuth});

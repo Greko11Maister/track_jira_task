@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:track_jira_task/injection_container.dart';
 import 'package:track_jira_task/src/core/settings/app_colors.dart';
 import 'package:track_jira_task/src/core/settings/app_text_style.dart';
+import 'package:track_jira_task/src/features/app/presentation/controllers/auth_controller.dart';
 import 'package:track_jira_task/src/features/app/presentation/controllers/home_controller.dart';
 import 'package:track_jira_task/src/features/app/presentation/controllers/timer_controller.dart';
 import 'package:track_jira_task/src/features/app/presentation/pages/configuration_page.dart';
@@ -16,6 +17,7 @@ import 'package:track_jira_task/src/features/domain/entities/projects_entity.dar
 
 class HomePage extends StatelessWidget {
   final TimerController _timerController = Get.find<TimerController>();
+  final AuthController _authController = Get.find<AuthController>();
   final HomeController _controller = sl<HomeController>();
   static const String routeName = '/home/page';
 
@@ -32,61 +34,73 @@ class HomePage extends StatelessWidget {
           FloatingActionButton.small(
 
             backgroundColor: Colors.white,
-            child: Icon(Icons.settings, color: Colors.black87),
+            child: const Icon(Icons.settings, color: Colors.black87),
               onPressed: (){
               Get.to(()=>ConfigurationPage());
               })
         ],
           centerTitle: true,
-          elevation: 1,
+          elevation: 0,
           backgroundColor: Color(0xffEBF2F4)
       ),
       body: RefreshIndicator(
         onRefresh: _controller.loadProjects,
-        child: ListView(
-          children: [
-            GetBuilder<HomeController>(
+        child: Container(
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    Color(0xffEBF2F4),
+                    Color(0xffC1DFEA),
+                    Color(0xffD5DDE0)
+                  ],
+                  begin: FractionalOffset.topCenter,
+                  end: FractionalOffset.bottomCenter)),
+          child: ListView(
+            children: [
+              GetBuilder<HomeController>(
 
-                init: _controller,
-                builder: (_) {
-                  return Column(
-                    children: [
-                      projectsTypeAhead(_),
-                      const SizedBox(height: 10), // if(_.isProjectsLoading.value) return Center(child: CircularProgressIndicator(),);
-                      ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: _.issues.length,
-                              itemBuilder: (ctx, i) {
-                                return Card(
-                                  margin: const EdgeInsets.all(1),
-                                  elevation: 0.3,
-                                  // color: Color(0xffEFF4F6),
-                                  child: ListTile(
-                                    contentPadding: const EdgeInsets.symmetric(horizontal: 15.0),
-                                    horizontalTitleGap: 15,
-                                    focusColor: Colors.blue,
-                                    leading: Text(_.issues[i].name!,
-                                        style: const TextStyle(color: Colors.blue)),
-                                    title: Text(_.issues[i].description!),
-                                    onTap: (){
-                                      // Get.to(()=> TimerPage(),arguments: _.issues[i]);
-                                      Get.to(()=>TimerPage(data:_.issues[i]));
-                                      // _.getIssueData();
-                                      // print(_.issues[i].id);
-                                    },
-                                    // trailing: CircleAvatar(backgroundImage: NetworkImage(_.issues[i].img!)),
-                                  ),
-                                );
-                                // log('${_.issues[i].img}', name: 'IMG');
-                              }
-                      )
-                  //} //else if
-                    ],
-                  );
-                  //return listProject(_);
-                }),
-          ],
+                  init: _controller,
+                  builder: (_) {
+                    return Column(
+                      children: [
+                        projectsTypeAhead(_),
+                        const SizedBox(height: 10), // if(_.isProjectsLoading.value) return Center(child: CircularProgressIndicator(),);
+                        ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: _.issues.length,
+                                itemBuilder: (ctx, i) {
+                                  return Card(
+                                    color: Color(0xffEBF2F4),
+                                    margin: const EdgeInsets.all(1),
+                                    elevation: 0.3,
+                                    // color: Color(0xffEFF4F6),
+                                    child: ListTile(
+                                      contentPadding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                      horizontalTitleGap: 15,
+                                      focusColor: Colors.blue,
+                                      leading: Text(_.issues[i].name!,
+                                          style: const TextStyle(color: Colors.blue)),
+                                      title: Text(_.issues[i].description!),
+                                      onTap: (){
+                                        // Get.to(()=> TimerPage(),arguments: _.issues[i]);
+                                        Get.to(()=>TimerPage(data:_.issues[i]));
+                                        // _.getIssueData();
+                                        // print(_.issues[i].id);
+                                      },
+                                      // trailing: CircleAvatar(backgroundImage: NetworkImage(_.issues[i].img!)),
+                                    ),
+                                  );
+                                  // log('${_.issues[i].img}', name: 'IMG');
+                                }
+                        )
+                    //} //else if
+                      ],
+                    );
+                    //return listProject(_);
+                  }),
+            ],
+          ),
         ),
       ),
     );
@@ -130,17 +144,22 @@ class HomePage extends StatelessWidget {
                           contentPadding: EdgeInsets.only(left: 10.w),
                         )),
                     itemBuilder: (context, ProjectsEntity suggestion) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              suggestion.avatarUrls?.avatar24 ?? '',
-                              headers: {
-                                'authorization':
-                                    'Basic Z3JlZ29yeS5pc2NhbGFAdHJpYnUudGVhbTp2aFNFS1llZm13Z2FWVGZKVVkyRTI3MzU='
-                              }),
-                          radius: 20.0,
-                        ),
-                        title: Text(suggestion.name ?? ''),
+                      return GetBuilder<AuthController>(
+                        init: _authController,
+                        builder: (_) {
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  suggestion.avatarUrls?.avatar24 ?? '',
+                                  headers: {
+                                    'authorization':
+                                        _.token!
+                                  }),
+                              radius: 20.0,
+                            ),
+                            title: Text(suggestion.name ?? ''),
+                          );
+                        }
                       );
                     },
                     onSuggestionSelected: (ProjectsEntity suggestion) {
