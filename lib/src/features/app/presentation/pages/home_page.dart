@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +12,8 @@ import 'package:track_jira_task/src/features/app/presentation/controllers/timer_
 import 'package:track_jira_task/src/features/app/presentation/pages/configuration_page.dart';
 import 'package:track_jira_task/src/features/app/presentation/pages/timer_page.dart';
 import 'package:track_jira_task/src/features/app/presentation/widgets/build_time.dart';
-import 'package:track_jira_task/src/features/app/presentation/widgets/card_project.dart';
 import 'package:track_jira_task/src/features/domain/entities/projects_entity.dart';
+
 
 class HomePage extends StatelessWidget {
   final TimerController _timerController = Get.find<TimerController>();
@@ -84,7 +84,7 @@ class HomePage extends StatelessWidget {
                                       title: Text(_.issues[i].description!),
                                       onTap: (){
                                         // Get.to(()=> TimerPage(),arguments: _.issues[i]);
-                                        Get.to(()=>TimerPage(data:_.issues[i]));
+                                        Get.to(()=>TimerPage(data:_.issues[i], project: _.projectsCtrl.text,));
                                         // _.getIssueData();
                                         // print(_.issues[i].id);
                                       },

@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:track_jira_task/src/features/app/presentation/controllers/timer_controller.dart';
-import 'package:track_jira_task/src/features/app/presentation/pages/home_page.dart';
 import 'package:track_jira_task/src/features/app/presentation/widgets/build_time.dart';
 import 'package:track_jira_task/src/features/domain/entities/issues_entity.dart';
+import 'package:track_jira_task/src/features/domain/entities/projects_entity.dart';
+import 'package:track_jira_task/src/features/domain/entities/task_entity.dart';
+
 
 class TimerPage extends StatelessWidget {
   final TimerController _controller = Get.find<TimerController>();
   final IssuesEntity data;
+  final String? project;
   static const String routeName = '/timer/page';
+  // TaskEntity? taskEntity;
 
-  TimerPage({Key? key, required this.data}) : super(key: key);
+  TimerPage({Key? key, required this.data, this.project}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +72,7 @@ class TimerPage extends StatelessWidget {
               const SizedBox(height: 50),
               // buildButtons(),
               GetBuilder<TimerController>(
+                init: _controller,
                 builder: (_) {
                   return Visibility(
                     visible:  _.timerRunning.value == false || data.id == _.issueRunning?.id,
@@ -94,8 +99,19 @@ class TimerPage extends StatelessWidget {
                                 onPressed: () {
                                   _.startTimer(issueRunning:  data);
                                   _.timerRunning.value = true;
-                                  // final initDate = DateTime.now();
-                                  // print('inicio incidencia ${data.name} : ${initDate}');
+
+                                  final initDate = DateTime.now();
+
+                                  final taskToInsert = TaskEntity(
+                                    id: data.id,
+                                    activity: data.description,
+                                    assignee: 'Responsable',
+                                    project: project,
+                                    initDate: initDate,
+                                    endDate: null,
+                                  );
+                                  _.insertTask(taskToInsert);
+
                                 }),
                           ),
                         ),
@@ -117,8 +133,17 @@ class TimerPage extends StatelessWidget {
                                 _.stopTimer();
                                 _.reset();
                                 _.timerRunning.value = false;
-                                // final endDate = DateTime.now();
-                                // print('Fin incidencia ${data.name} : ${endDate}');
+                                final endDate = DateTime.now();
+
+                                final taskToInsert = TaskEntity(
+                                  id: data.id,
+                                  activity: null,
+                                  assignee: null,
+                                  project: null,
+                                  initDate: null,
+                                  endDate: endDate,
+                                );
+                                _.updateTask(taskToInsert);
                               }
                           ),
                         ),

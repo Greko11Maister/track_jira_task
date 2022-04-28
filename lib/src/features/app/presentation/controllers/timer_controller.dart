@@ -1,41 +1,62 @@
 import 'dart:async';
 import 'package:get/get.dart';
-import 'package:track_jira_task/src/features/app/presentation/controllers/home_controller.dart';
+import 'package:track_jira_task/src/features/data/DTOs/task_dto.dart';
 import 'package:track_jira_task/src/features/domain/entities/issues_entity.dart';
+import 'package:track_jira_task/src/features/domain/entities/task_entity.dart';
+import 'package:track_jira_task/src/features/domain/usecases/set_task_gsheet_use_case.dart';
+import 'package:track_jira_task/src/features/domain/usecases/update_task_gsheets_use_case.dart';
 
 class TimerController extends GetxController {
+  final SetTaskGSheetsUseCase _setTaskGSheetsUseCase;
+  final UpdateTaskGSheetsUseCase _updateTaskGSheetsUseCase;
   static const countdownDuration = Duration(seconds: 10);
-  Rx<Duration> duration = Duration().obs;
+  Rx<Duration> duration = const Duration().obs;
   Timer? timer;
+  // TaskDTO? _taskDTO;
 
   bool isCountdown = false;
   RxBool timerRunning = false.obs;
 
   IssuesEntity? _issueRunning;
+  // TaskEntity? _taskEntity;
+
+  TimerController({
+    required SetTaskGSheetsUseCase setTaskGSheetsUseCase,
+    required UpdateTaskGSheetsUseCase updateTaskGSheetsUseCase})
+      : _setTaskGSheetsUseCase = setTaskGSheetsUseCase,
+        _updateTaskGSheetsUseCase = updateTaskGSheetsUseCase;
 
   IssuesEntity? get issueRunning => _issueRunning;
+  // TaskEntity? get taskEntity => _taskEntity;
 
-
-@override
-  void onInit() async{
-  //startTimer();
+  @override
+  void onInit() async {
+    //startTimer();
     super.onInit();
-    update(['timer']);
   }
 
   @override
   void onReady() {
-    // startTimer(resets: false);
+    // insertTask();
     super.onReady();
-
   }
 
-  void reset(){
+  void insertTask(TaskEntity task) async{
+    _setTaskGSheetsUseCase.call(task);
+    update();
+  }
+
+  void updateTask(TaskEntity task) async{
+    _updateTaskGSheetsUseCase.call(task);
+    update();
+  }
+
+  void reset() {
     // issueRunning == null;
-    if(isCountdown){
+    if (isCountdown) {
       duration.value = countdownDuration;
-    }else {
-      duration.value = Duration();
+    } else {
+      duration.value = const Duration();
     }
     // update(['timer']);
   }
@@ -43,17 +64,17 @@ class TimerController extends GetxController {
   void addTime() {
     final addSeconds = isCountdown ? -1 : 1;
 
-      final seconds = duration.value.inSeconds + addSeconds;
-      if (seconds <0){
-        timer?.cancel();
-      }else{
-        duration.value = Duration(seconds: seconds);
-      }
+    final seconds = duration.value.inSeconds + addSeconds;
+    if (seconds < 0) {
+      timer?.cancel();
+    } else {
+      duration.value = Duration(seconds: seconds);
+    }
   }
 
   void startTimer({bool resets = true, IssuesEntity? issueRunning}) {
-  this._issueRunning = issueRunning;
-    if(resets){
+    _issueRunning = issueRunning;
+    if (resets) {
       reset();
     }
     timer = Timer.periodic(const Duration(seconds: 1), (_) => addTime());

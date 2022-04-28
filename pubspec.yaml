@@ -24,6 +24,7 @@ dependencies:
   hive: ^2.0.4
   hive_flutter: ^1.0.0
   flutter_typeahead: ^3.2.4
+  gsheets: ^0.4.2
   
 dev_dependencies:
   flutter_test:

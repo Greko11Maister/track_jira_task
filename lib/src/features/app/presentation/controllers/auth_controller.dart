@@ -30,6 +30,7 @@ class AuthController extends GetxController {
     final res = await _getTokenUseCase.call(NoParams());
     res.fold((l) => null, (r) {
       this._token = r;
+      update();
     });
   }
 
