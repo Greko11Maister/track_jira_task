@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:gsheets/gsheets.dart';
-import 'package:track_jira_task/src/features/data/models/task_model.dart';
+import 'package:track_jira_task/injection_container.dart';
+import 'package:track_jira_task/src/core/env/env.dart';
+import 'package:track_jira_task/src/core/http/api.dart';
 import 'package:track_jira_task/src/features/domain/entities/task_entity.dart';
 
 abstract class GoogleSheetsRemoteDataSource{
@@ -9,7 +11,7 @@ abstract class GoogleSheetsRemoteDataSource{
   Future<void> updateTaskGsheets(TaskEntity task);
 }
 
-class GoogleSheetsRemoteDataSourceImpl implements GoogleSheetsRemoteDataSource{
+class GoogleSheetsRemoteDataSourceImpl extends ApiProvider implements GoogleSheetsRemoteDataSource{
 
   //Credenciales GSheets
   static const _credentials = r'''
@@ -34,46 +36,43 @@ class GoogleSheetsRemoteDataSourceImpl implements GoogleSheetsRemoteDataSource{
   Future<void> SetTaskGsheets(TaskEntity task) async{
 
     //Iniciar GSheets
-    final gsheets = GSheets(_credentials);
+    final gsheets = GSheets(_credentials/*sl<Env>().api*/);
     //Obtener hoja de cálculo por Id
-    final sheet = await gsheets.spreadsheet(_spreadsheetId);
+    final sheet = await gsheets.spreadsheet(_spreadsheetId/*EnvMode.spreadsheetId.toString()*/);
     //Hoja de trabajo por su titulo
-    var workSheet = sheet.worksheetByTitle(_worksheetTitle);
-    // await workSheet!.values.appendRow([222, 'Conexión con GSheets2', 'Dennis Calderón', 'Jira Time', '26/04/2022']);
+    var workSheet = sheet.worksheetByTitle(_worksheetTitle/*EnvMode.worksheetTitle.toString()*/);
 
-    // log('Data Source ${await workSheet.values.row(2)}',name: 'Set Task');
-
-    //BUSCAR TASK POR ID
-    final taskForId = await workSheet!.values.map.rowByKey(task.id.toString(), fromColumn: 1,);
-    if(taskForId != null){
-      print('incidencia gestionada');
-    }else{
-      await workSheet.values.appendRow([task.id, task.activity, task.assignee, task.project, task.initDate.toString()]);
-    }
+    await workSheet!.values.appendRow([task.id, task.activity, task.assignee, task.project, task.initDate.toString()]);
 
   }
 
   @override
   Future<void> updateTaskGsheets(TaskEntity task) async{
     //Iniciar GSheets
-    final gsheets = GSheets(_credentials);
+    final gsheets = GSheets(_credentials/*sl<Env>().api*/);
     //Obtener hoja de cálculo por Id
-    final sheet = await gsheets.spreadsheet(_spreadsheetId);
+    final sheet = await gsheets.spreadsheet(_spreadsheetId/*EnvMode.spreadsheetId.toString()*/);
     //Hoja de trabajo por su titulo
-    var workSheet = sheet.worksheetByTitle(_worksheetTitle);
+    var workSheet = sheet.worksheetByTitle(_worksheetTitle/*EnvMode.worksheetTitle.toString()*/);
 
-    final EndDate = DateTime.now();
 
-    await workSheet!.values.insertValueByKeys(
-      EndDate.toString(),
-      columnKey: 'Fecha_Fin',
-      rowKey: task.id.toString(),
-    );
+    //obtener filas
+    final mapRow = await workSheet!.values.map.allRows();
+    // log('$mapRow', name: 'map Row');
+    //obtener indice de incidencia
+    var index = mapRow?.asMap().entries.where((e) => e.value['Fecha_Fin'] == ''
+        && e.value['Cod'] == task.id.toString()
+        && e.value['Actividad'] == task.activity
+        && e.value['Responsable'] == task.assignee
+        && e.value['Proyecto'] == task.project
+    ).toList();
+    // log('$index', name: 'index');
+    var indexOk = (index!.first.key);
+    indexOk=indexOk+2;
+    // log('$indexOk', name: 'index Ok');
 
-    // await workSheet!.values.insertRowByKey(
-    //   task.id.toString(),
-    //   [task.activity, task.assignee, task.project, task.initDate.toString(), task.endDate.toString()],
-    // );
+    await workSheet.values.insertValue(task.endDate.toString(), column: 6, row: indexOk);
+
   }
 
 

@@ -6,7 +6,7 @@ import 'package:track_jira_task/src/features/app/presentation/controllers/auth_c
 import 'package:track_jira_task/src/features/app/presentation/controllers/timer_controller.dart';
 import 'package:track_jira_task/src/features/app/presentation/pages/configuration_page.dart';
 import 'package:track_jira_task/src/features/app/presentation/pages/home_page.dart';
-import 'package:track_jira_task/src/features/app/presentation/pages/timer_page.dart';
+
 
 
 class App extends StatelessWidget {

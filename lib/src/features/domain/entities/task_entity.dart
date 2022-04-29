@@ -6,7 +6,7 @@ class TaskEntity extends Equatable {
   final String? assignee;
   final String? project;
   final DateTime? initDate;
-  final DateTime? endDate;
+  final  DateTime? endDate;
 
   const TaskEntity({
       this.id,

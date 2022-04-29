@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:track_jira_task/src/features/data/DTOs/task_dto.dart';
 import 'package:track_jira_task/src/features/domain/entities/issues_entity.dart';
@@ -18,7 +19,7 @@ class TimerController extends GetxController {
   RxBool timerRunning = false.obs;
 
   IssuesEntity? _issueRunning;
-  // TaskEntity? _taskEntity;
+  TaskEntity? _taskEntity;
 
   TimerController({
     required SetTaskGSheetsUseCase setTaskGSheetsUseCase,
@@ -27,29 +28,8 @@ class TimerController extends GetxController {
         _updateTaskGSheetsUseCase = updateTaskGSheetsUseCase;
 
   IssuesEntity? get issueRunning => _issueRunning;
-  // TaskEntity? get taskEntity => _taskEntity;
+  TaskEntity? get taskEntity => _taskEntity;
 
-  @override
-  void onInit() async {
-    //startTimer();
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    // insertTask();
-    super.onReady();
-  }
-
-  void insertTask(TaskEntity task) async{
-    _setTaskGSheetsUseCase.call(task);
-    update();
-  }
-
-  void updateTask(TaskEntity task) async{
-    _updateTaskGSheetsUseCase.call(task);
-    update();
-  }
 
   void reset() {
     // issueRunning == null;
@@ -72,19 +52,44 @@ class TimerController extends GetxController {
     }
   }
 
-  void startTimer({bool resets = true, IssuesEntity? issueRunning}) {
+  void startTimer({bool resets = true, IssuesEntity? issueRunning, String? project}) {
     _issueRunning = issueRunning;
     if (resets) {
       reset();
     }
+    final initDate = DateTime.now();
+
+    _taskEntity = TaskEntity(
+      id: _issueRunning!.id,
+      activity: _issueRunning!.description,
+      assignee: 'Responsable',
+      project: project,
+      initDate: initDate,
+      endDate: null,
+    );
+    _setTaskGSheetsUseCase.call(_taskEntity!);
     timer = Timer.periodic(const Duration(seconds: 1), (_) => addTime());
+    log(_taskEntity!.toString(), name: 'TaskEntity Start');
     update();
   }
 
-  void stopTimer({bool resets = true}) {
+  void stopTimer({bool resets = true,IssuesEntity? issueRunning, String? project}) {
     if (resets) {
       reset();
     }
+    log(_taskEntity!.toString(), name: 'TaskEntity Stop');
+    final endDate = DateTime.now();
+    // _taskEntity!.endDate = endDate.toString();
+    _taskEntity = TaskEntity(
+      id: _issueRunning!.id,
+      activity: _issueRunning!.description,
+      assignee: 'Responsable',
+      project: project,
+      initDate: null,
+      endDate: endDate,
+    );
+
+    _updateTaskGSheetsUseCase.call(_taskEntity!);
     timer?.cancel();
     issueRunning == null;
     update();

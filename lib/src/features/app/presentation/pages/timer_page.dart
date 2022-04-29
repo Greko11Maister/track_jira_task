@@ -97,21 +97,8 @@ class TimerPage extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: () {
-                                  _.startTimer(issueRunning:  data);
+                                  _.startTimer(issueRunning:  data,project: project);
                                   _.timerRunning.value = true;
-
-                                  final initDate = DateTime.now();
-
-                                  final taskToInsert = TaskEntity(
-                                    id: data.id,
-                                    activity: data.description,
-                                    assignee: 'Responsable',
-                                    project: project,
-                                    initDate: initDate,
-                                    endDate: null,
-                                  );
-                                  _.insertTask(taskToInsert);
-
                                 }),
                           ),
                         ),
@@ -130,20 +117,9 @@ class TimerPage extends StatelessWidget {
                                 ),
                               ),
                               onPressed: (){
-                                _.stopTimer();
+                                _.stopTimer(issueRunning:  data,project: project);
                                 _.reset();
                                 _.timerRunning.value = false;
-                                final endDate = DateTime.now();
-
-                                final taskToInsert = TaskEntity(
-                                  id: data.id,
-                                  activity: null,
-                                  assignee: null,
-                                  project: null,
-                                  initDate: null,
-                                  endDate: endDate,
-                                );
-                                _.updateTask(taskToInsert);
                               }
                           ),
                         ),
