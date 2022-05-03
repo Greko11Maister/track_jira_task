@@ -41,8 +41,10 @@ class ConfigurationPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20),
-                RaisedButton(
-                  color: Colors.grey,
+                ElevatedButton(
+                    style:  ElevatedButton.styleFrom(
+                      primary: Colors.grey,
+                    ),
                     child: Container(
                       width: 100,
                       height: 50,

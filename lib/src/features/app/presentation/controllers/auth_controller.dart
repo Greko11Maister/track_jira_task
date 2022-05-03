@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 import 'package:track_jira_task/src/core/usecases/usecase.dart';
-import 'package:track_jira_task/src/features/domain/usecases/get_token_use_case.dart';
+import 'package:track_jira_task/src/features/domain/usecases/get_token_usecase.dart';
 
 class AuthController extends GetxController {
   @override

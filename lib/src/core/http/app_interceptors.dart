@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:track_jira_task/injection_container.dart';
 import 'package:track_jira_task/src/core/usecases/usecase.dart';
-import 'package:track_jira_task/src/features/domain/usecases/get_token_use_case.dart';
+import 'package:track_jira_task/src/features/domain/usecases/get_token_usecase.dart';
 
 
 class AppInterceptors extends Interceptor {
@@ -20,7 +20,7 @@ class AppInterceptors extends Interceptor {
       // String token = /*resp.fold<String>((l) => '', (r) => r ?? '');*/ "";
     //   options.headers.addAll({"Authorization": "Bearer $token"});
     // }
-
+    // String username = 'dennis.calderon@tribu.team';
     String username = 'gregory.iscala@tribu.team';
     final res = await sl<GetTokenUseCase>().call(NoParams());
     var pass = res.fold((l) => null, (r) => r ?? '');

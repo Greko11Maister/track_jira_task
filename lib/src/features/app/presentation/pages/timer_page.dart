@@ -21,6 +21,20 @@ class TimerPage extends StatelessWidget {
     // print(data);
     return Scaffold(
       appBar: AppBar(
+        leading:  GetBuilder<TimerController>(
+            init: _controller,
+            builder: (_) {
+              return FittedBox(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(children: [
+                    const Icon(Icons.account_circle,color: Colors.black87),
+                    Text('${_.nameUser}', style: const TextStyle(color: Colors.black, fontSize: 10, fontWeight: FontWeight.bold),),
+                  ],),
+                ),
+              );
+            }
+        ),
         actions: [
           GetBuilder<TimerController>(
             builder: (_) {

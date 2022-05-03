@@ -16,65 +16,70 @@ import 'package:track_jira_task/src/features/data/repositories/projects_reposito
 import 'package:track_jira_task/src/features/domain/repositories/auth_repository.dart';
 import 'package:track_jira_task/src/features/domain/repositories/google_sheets_repository.dart';
 import 'package:track_jira_task/src/features/domain/repositories/projects_repository.dart';
-import 'package:track_jira_task/src/features/domain/usecases/get_issues_usecase.dart';
+import 'package:track_jira_task/src/features/domain/usecases/get_issues_by_project_usecase.dart';
+import 'package:track_jira_task/src/features/domain/usecases/get_issues_by_query_usecase.dart';
 import 'package:track_jira_task/src/features/domain/usecases/get_projects_usecase.dart';
-import 'package:track_jira_task/src/features/domain/usecases/get_token_use_case.dart';
-import 'package:track_jira_task/src/features/domain/usecases/set_task_gsheet_use_case.dart';
-import 'package:track_jira_task/src/features/domain/usecases/set_token_use_case.dart';
-import 'package:track_jira_task/src/features/domain/usecases/update_task_gsheets_use_case.dart';
+import 'package:track_jira_task/src/features/domain/usecases/get_token_usecase.dart';
+import 'package:track_jira_task/src/features/domain/usecases/get_user_usecase.dart';
+import 'package:track_jira_task/src/features/domain/usecases/set_task_gsheet_usecase.dart';
+import 'package:track_jira_task/src/features/domain/usecases/set_token_usecase.dart';
+import 'package:track_jira_task/src/features/domain/usecases/update_task_gsheets_usecase.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
   //Controllers
   sl.registerFactory(() => HomeController(
-      getProjectUseCase: sl(),
-      getIssuesUseCase: sl(),
-    ));
+        getProjectUseCase: sl(),
+        getIssuesUseCase: sl(),
+        getUserUseCase: sl(),
+    getIssuesByQueryUseCase: sl(),
+      ));
 
   sl.registerFactory(() => TimerController(
-      setTaskGSheetsUseCase: sl(),
-      updateTaskGSheetsUseCase: sl(),
-  ));
+        setTaskGSheetsUseCase: sl(),
+        updateTaskGSheetsUseCase: sl(),
+        getUserUseCase: sl(),
+      ));
 
   sl.registerFactory(() => ConfigurationController(
-      getTokenUseCase: sl(),
-      setTokenUseCase: sl(),
-  ));
+        getTokenUseCase: sl(),
+        setTokenUseCase: sl(),
+      ));
 
-  sl.registerFactory(() => AuthController(
-      getTokenUseCase: sl()
-  ));
+  sl.registerFactory(() => AuthController(getTokenUseCase: sl()));
 
   //Use Cases
   sl.registerLazySingleton(() => GetProjectUseCase(sl()));
-  sl.registerLazySingleton(() => GetIssuesUseCase(sl()));
+  sl.registerLazySingleton(() => GetIssuesByProjectUseCase(sl()));
+  sl.registerLazySingleton(() => GetIssuesByQueryUseCase(sl()));
   sl.registerLazySingleton(() => GetTokenUseCase(sl()));
   sl.registerLazySingleton(() => SetTokenUseCase(sl()));
   sl.registerLazySingleton(() => SetTaskGSheetsUseCase(sl()));
   sl.registerLazySingleton(() => UpdateTaskGSheetsUseCase(sl()));
+  sl.registerLazySingleton(() => GetUserUseCase(sl()));
 
   //Repository
-  sl.registerLazySingleton<ProjectsRepository>(
-          () => ProjectsRepositoryImpl(remoteDataSource: sl(),
-          ));
+  sl.registerLazySingleton<ProjectsRepository>(() => ProjectsRepositoryImpl(
+        remoteDataSource: sl(),
+      ));
 
-  sl.registerLazySingleton<AuthRepository>(
-          () => AuthRepositoryImpl(localDataSource: sl(),
-          ));
+  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
+        localDataSource: sl(),
+      ));
 
   sl.registerLazySingleton<GoogleSheetsRepository>(
-          () => GoogleSheetsRepositoryImpl(remoteDataSource: sl()));
+      () => GoogleSheetsRepositoryImpl(remoteDataSource: sl()));
 
   //Data Source
   sl.registerLazySingleton<ProjectRemoteDataSource>(
-          () => ProjectRemoteDataSourceImpl());
+      () => ProjectRemoteDataSourceImpl());
 
   sl.registerLazySingleton<AuthLocalDataSource>(
-          () => AuthLocalDataSourceImpl());
+      () => AuthLocalDataSourceImpl());
 
   sl.registerLazySingleton<GoogleSheetsRemoteDataSource>(
-          () => GoogleSheetsRemoteDataSourceImpl());
+      () => GoogleSheetsRemoteDataSourceImpl());
 
   await Hive.initFlutter();
   //Adapters

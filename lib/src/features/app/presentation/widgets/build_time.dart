@@ -29,8 +29,14 @@ Widget buildTime({IssuesEntity? issue}) {
                 children: [
                   Visibility(
                     visible: _.timerRunning == true && issue?.id != _.issueRunning?.id,
-                      child: Text('Incidencia en curso ${_.issueRunning?.name}' ,
-                        style: TextStyle(color: Colors.blue, fontSize: 20, fontWeight: FontWeight.bold),)),
+                      child: Column(
+                        children: [
+                          const Text('Incidencia en curso',
+                            style: TextStyle(color: Colors.blue, fontSize: 22, fontWeight: FontWeight.bold),),
+                          Text('${_.issueRunning?.name}',
+                            style: const TextStyle(color: Colors.blue, fontSize: 20, fontWeight: FontWeight.bold),),
+                        ],
+                      )),
                   buildTimeCard(time: hours, header: 'HORAS'),
                   const SizedBox(width: 8),
                   buildTimeCard(time: minutes, header: 'MINUTOS'),

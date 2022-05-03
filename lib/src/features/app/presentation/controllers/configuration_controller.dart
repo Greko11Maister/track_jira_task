@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
-import 'package:track_jira_task/src/features/domain/usecases/get_token_use_case.dart';
-import 'package:track_jira_task/src/features/domain/usecases/set_token_use_case.dart';
+import 'package:track_jira_task/src/features/domain/usecases/get_token_usecase.dart';
+import 'package:track_jira_task/src/features/domain/usecases/set_token_usecase.dart';
 
 class ConfigurationController extends GetxController {
   final GetTokenUseCase _getTokenUseCase;
@@ -16,11 +16,6 @@ class ConfigurationController extends GetxController {
       : _getTokenUseCase = getTokenUseCase,
         _setTokenUseCase = setTokenUseCase;
 
-  @override
-  void onInit() {
-    // _getTokenUseCase;
-    super.onInit();
-  }
 
   void saveToken(String token) {
     _setTokenUseCase(token);
