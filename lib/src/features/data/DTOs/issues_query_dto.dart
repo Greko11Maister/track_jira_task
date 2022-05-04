@@ -5,7 +5,7 @@ class IssuesQueryDTO{
 
   Map<String, dynamic>? get queryParameters{
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['query'] = "cambiar";
+    data['query'] = query;
 
     return data;
   }

@@ -110,14 +110,15 @@ class HomeController extends GetxController {
   Future<void> loadIssuesByQuery(String queryTxt) async{
     IssuesQueryDTO params = IssuesQueryDTO(query: queryTxt);
     final res = await _getIssuesByQueryUseCase.call(params);
-    print(IssuesQueryDTO().query);
-    log(queryTxt, name: 'query cntrl');
+    // log('${params.query}', name: "query cntrl");
+    // log(queryTxt, name: 'query input');
     res.fold((l) {
       log('$l', name: 'Error Issues Query');
     }, (r) {
       log('$r', name: 'Issues cntrl r');
       issues.clear();
       issues.addAll(r);
+      log('$issues', name: 'Issues cntrl');
       update();
     });
   }

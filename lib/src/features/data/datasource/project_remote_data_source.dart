@@ -48,14 +48,12 @@ class ProjectRemoteDataSourceImpl extends ApiProvider implements ProjectRemoteDa
   Future<List<IssuesModel>> getIssuesByQuery(IssuesQueryDTO params) async{
     try{
       final res = await dio!.get('/rest/api/3/issue/picker', queryParameters: params.queryParameters);
-      log('${IssuesQueryDTO().queryParameters}', name: 'query data source');
       // log('$res', name: 'Issues query');
       return (res.data ["sections"][0] ["issues"] as List)
           .map((e) => IssuesModel.fromJson(e))
           .toList();
     }on DioError catch (error) {
       throw ServerFailure(error: error).extract;
-
     }
   }
 

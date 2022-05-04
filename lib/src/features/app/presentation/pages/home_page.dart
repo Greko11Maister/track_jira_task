@@ -115,7 +115,7 @@ class HomePage extends StatelessWidget {
                                       focusColor: Colors.blue,
                                       leading: Text(_.issues[i].name!,
                                           style: const TextStyle(color: Colors.blue)),
-                                      title: Text(_.issues[i].description!),
+                                      title: Text(_.issues[i].description!.replaceAll("<b>", "").replaceAll("</b>", "")),
                                       onTap: (){
                                         // Get.to(()=> TimerPage(),arguments: _.issues[i]);
                                         Get.to(()=>TimerPage(data:_.issues[i], project: _.projectsCtrl.text,));
