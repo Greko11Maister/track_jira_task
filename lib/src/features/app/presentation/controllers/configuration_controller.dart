@@ -9,6 +9,7 @@ class ConfigurationController extends GetxController {
   final SetTokenUseCase _setTokenUseCase;
 
   final tokenCtrl = TextEditingController();
+  final userNameCtrl = TextEditingController();
 
   ConfigurationController({
     required GetTokenUseCase getTokenUseCase,

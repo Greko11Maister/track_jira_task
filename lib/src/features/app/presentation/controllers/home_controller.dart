@@ -110,20 +110,39 @@ class HomeController extends GetxController {
   }
 
   Future<void> loadIssuesByQuery(String queryTxt, String projectId) async{
-    IssuesQueryDTO params = IssuesQueryDTO(query: queryTxt, idProject: projectId);
-    final res = await _getIssuesByQueryUseCase.call(params);
-    // log('${params.query}', name: "query cntrl");
-    // log(queryTxt, name: 'query input');
-    res.fold((l) {
-      log('$l', name: 'Error Issues Query');
-    }, (r) {
-      // log('$r', name: 'Issues cntrl r');
-      issues.clear();
-      // List<IssuesEntity> NewIssue = r.repla
-      issues.addAll(r);
-      // log('$issues', name: 'Issues cntrl');
-      update();
-    });
+
+    if(queryTxt==''){
+      ProjectDTO params = ProjectDTO(id: projectId);
+      final res = await _getIssuesByProjectUseCase.call(params);
+      res.fold((l) {
+        log('$l', name: 'Error Issues Query');
+      }, (r) {
+        issues.clear();
+        issues.addAll(r);
+        update();
+      });
+    }else{
+      IssuesQueryDTO params = IssuesQueryDTO(query: queryTxt, idProject: projectId);
+      final res = await _getIssuesByQueryUseCase.call(params);
+      res.fold((l) {
+        log('$l', name: 'Error Issues Query');
+      }, (r) {
+        issues.clear();
+        issues.addAll(r);
+        update();
+      });
+    }
+
+    // IssuesQueryDTO params = IssuesQueryDTO(query: queryTxt, idProject: projectId);
+    // final res = await _getIssuesByQueryUseCase.call(params);
+    //
+    // res.fold((l) {
+    //   log('$l', name: 'Error Issues Query');
+    // }, (r) {
+    //   issues.clear();
+    //   issues.addAll(r);
+    //   update();
+    // });
   }
 
   // void getIssueData(){

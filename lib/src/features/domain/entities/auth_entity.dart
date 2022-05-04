@@ -7,6 +7,5 @@ class AuthEntity extends Equatable{
   AuthEntity({this.username, this.token});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [username, token];
 }

@@ -26,12 +26,28 @@ class ConfigurationPage extends StatelessWidget {
             padding: EdgeInsets.all(30),
             child: Column(
               children: [
+                // TextFormField(
+                //   controller: _.userNameCtrl,
+                //   autocorrect: false,
+                //   keyboardType: TextInputType.text,
+                //   decoration: const InputDecoration(
+                //     prefixIcon: Icon(Icons.account_circle, color: Colors.grey),
+                //     enabledBorder: OutlineInputBorder(
+                //       borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                //     ),
+                //     focusedBorder: InputBorder.none,
+                //     border: InputBorder.none,
+                //     hintText: 'User Name',
+                //   ),
+                // ),
+                SizedBox(height: 10),
                 TextFormField(
+                  obscureText: true,
                   controller: _.tokenCtrl,
                   autocorrect: false,
                   keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.account_circle, color: Colors.grey),
+                      prefixIcon: Icon(Icons.vpn_key, color: Colors.grey),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     ),
