@@ -73,7 +73,7 @@ class TimerController extends GetxController {
 
     _taskEntity = TaskEntity(
       id: _issueRunning!.id,
-      activity: _issueRunning!.description,
+      activity: _issueRunning!.description?.replaceAll("<b>", "").replaceAll("</b>", ""),
       assignee: user.value,
       project: project,
       initDate: initDate,
@@ -94,7 +94,7 @@ class TimerController extends GetxController {
     // _taskEntity!.endDate = endDate.toString();
     _taskEntity = TaskEntity(
       id: _issueRunning!.id,
-      activity: _issueRunning!.description,
+      activity: _issueRunning!.description?.replaceAll("<b>", "").replaceAll("</b>", ""),
       assignee: user.value,
       project: project,
       initDate: null,

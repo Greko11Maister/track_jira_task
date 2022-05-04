@@ -77,24 +77,27 @@ class HomePage extends StatelessWidget {
                         // const SizedBox(height: 2),
                         projectsTypeAhead(_),
                         const SizedBox(height: 2),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: TextFormField(
-                            onChanged: (text){
-                              _.loadIssuesByQuery(text);
-                              // print(text);
-                            },
-                            controller: _.searchCtrl,
-                            autocorrect: false,
-                            keyboardType: TextInputType.text,
-                            decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.search_rounded, color: Colors.blue),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                        Visibility(
+                          visible: _.projectSelected == true,
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: TextFormField(
+                              onChanged: (text){
+                                _.loadIssuesByQuery(text, _.projectId!);
+                                // print(text);
+                              },
+                              controller: _.searchCtrl,
+                              autocorrect: false,
+                              keyboardType: TextInputType.text,
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.search_rounded, color: Colors.blue),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                                ),
+                                focusedBorder: InputBorder.none,
+                                border: InputBorder.none,
+                                hintText: 'Buscar Incidencia',
                               ),
-                              focusedBorder: InputBorder.none,
-                              border: InputBorder.none,
-                              hintText: 'Buscar Incidencia',
                             ),
                           ),
                         ),

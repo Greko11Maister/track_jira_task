@@ -33,10 +33,10 @@ class HomeController extends GetxController {
 
   IssuesEntity? issuesEntity;
   UserEntity? userEntity;
-  IssuesQueryDTO? issuesQueryDTO;
+  // IssuesQueryDTO? issuesQueryDTO;
 
   RxBool isProjectsLoading = false.obs;
-  RxBool isUsersLoading = false.obs;
+  RxBool projectSelected = false.obs;
   RxString user = ''.obs;
 
   HomeController({
@@ -72,9 +72,10 @@ class HomeController extends GetxController {
 
   set setProjectSelected(ProjectsEntity value) {
       projectsCtrl.text = value.name!;
-       // id = value.id;
       loadIssuesByProject(value.id!);
       // log('${value.id}', name: 'ID del project');
+      projectSelected.value = true;
+      projectId = value.id!;
     update();
   }
 
@@ -95,6 +96,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> loadIssuesByProject(String projectId) async{
+    projectSelected.value = true;
     // print(projectId);
     ProjectDTO params = ProjectDTO(id: projectId);
     final res = await _getIssuesByProjectUseCase.call(params);
@@ -107,18 +109,19 @@ class HomeController extends GetxController {
     });
   }
 
-  Future<void> loadIssuesByQuery(String queryTxt) async{
-    IssuesQueryDTO params = IssuesQueryDTO(query: queryTxt);
+  Future<void> loadIssuesByQuery(String queryTxt, String projectId) async{
+    IssuesQueryDTO params = IssuesQueryDTO(query: queryTxt, idProject: projectId);
     final res = await _getIssuesByQueryUseCase.call(params);
     // log('${params.query}', name: "query cntrl");
     // log(queryTxt, name: 'query input');
     res.fold((l) {
       log('$l', name: 'Error Issues Query');
     }, (r) {
-      log('$r', name: 'Issues cntrl r');
+      // log('$r', name: 'Issues cntrl r');
       issues.clear();
+      // List<IssuesEntity> NewIssue = r.repla
       issues.addAll(r);
-      log('$issues', name: 'Issues cntrl');
+      // log('$issues', name: 'Issues cntrl');
       update();
     });
   }

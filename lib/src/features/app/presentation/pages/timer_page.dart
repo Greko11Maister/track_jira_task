@@ -74,7 +74,7 @@ class TimerPage extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               Text(
-                '${data.description}',
+                '${data.description?.replaceAll("<b>", "").replaceAll("</b>", "")}',
                 //_.homeController.issuesEntity!.description??''
                 style: const TextStyle(
                   fontSize: 15,
