@@ -1,13 +1,9 @@
-import 'dart:developer';
-
 import 'package:gsheets/gsheets.dart';
-import 'package:track_jira_task/injection_container.dart';
-import 'package:track_jira_task/src/core/env/env.dart';
 import 'package:track_jira_task/src/core/http/api.dart';
 import 'package:track_jira_task/src/features/domain/entities/task_entity.dart';
 
 abstract class GoogleSheetsRemoteDataSource{
-  Future<void> SetTaskGsheets(TaskEntity task);
+  Future<void> setTaskGsheets(TaskEntity task);
   Future<void> updateTaskGsheets(TaskEntity task);
 }
 
@@ -33,7 +29,7 @@ class GoogleSheetsRemoteDataSourceImpl extends ApiProvider implements GoogleShee
   static const _worksheetTitle = 'Worksheet1';
 
   @override
-  Future<void> SetTaskGsheets(TaskEntity task) async{
+  Future<void> setTaskGsheets(TaskEntity task) async{
 
     //Iniciar GSheets
     final gsheets = GSheets(_credentials/*sl<Env>().api*/);

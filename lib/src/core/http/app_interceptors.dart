@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:track_jira_task/injection_container.dart';
 import 'package:track_jira_task/src/core/usecases/usecase.dart';
 import 'package:track_jira_task/src/features/domain/usecases/get_token_usecase.dart';
+import 'package:track_jira_task/src/features/domain/usecases/get_username_usecase.dart';
 
 
 class AppInterceptors extends Interceptor {
@@ -21,15 +22,15 @@ class AppInterceptors extends Interceptor {
     //   options.headers.addAll({"Authorization": "Bearer $token"});
     // }
     // String username = 'dennis.calderon@tribu.team';
-    String username = 'gregory.iscala@tribu.team';
+    // String username = 'gregory.iscala@tribu.team';
     final res = await sl<GetTokenUseCase>().call(NoParams());
     var pass = res.fold((l) => null, (r) => r ?? '');
-    String password = 'bbnFKSCNGSnDWPaOz5msF844';
-    // log('$pass', name: 'pass hive');
-    // log('$password', name: 'password');
+    final res2 = await sl<GetUsernameUseCase>().call(NoParams());
+    var username = res2.fold((l) => null, (r) => r ?? '');
+    // String password = 'bbnFKSCNGSnDWPaOz5msF844';
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$pass'));
 
-    // log('$basicAuth', name: 'Token');
+    log(basicAuth, name: 'app Interceptor');
     options.headers.addAll({"Authorization": basicAuth});
 
 

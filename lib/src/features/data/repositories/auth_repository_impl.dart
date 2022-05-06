@@ -27,4 +27,24 @@ class AuthRepositoryImpl implements AuthRepository{
       return Left(e);
     }
   }
+
+  @override
+  Future<Either<Failure, String?>> getUsername() async{
+    try {
+      String? res = await localDataSource.getUsername();
+      return Right(res);
+    }on CacheFailure catch (e){
+      return Left(e);
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> setUsername(String username) async{
+    try {
+      await localDataSource.setUsername(username);
+      return const Right(true);
+    }on CacheFailure catch (e){
+      return Left(e);
+    }
+  }
 }

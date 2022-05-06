@@ -7,8 +7,6 @@ import 'package:track_jira_task/src/features/app/presentation/controllers/timer_
 import 'package:track_jira_task/src/features/app/presentation/pages/configuration_page.dart';
 import 'package:track_jira_task/src/features/app/presentation/pages/home_page.dart';
 
-
-
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 

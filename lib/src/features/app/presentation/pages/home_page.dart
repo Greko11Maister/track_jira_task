@@ -16,7 +16,9 @@ import 'package:track_jira_task/src/features/domain/entities/projects_entity.dar
 
 
 class HomePage extends StatelessWidget {
+
   final TimerController _timerController = Get.find<TimerController>();
+  // final AuthController _authController = Get.put(sl<AuthController>());
   final AuthController _authController = Get.find<AuthController>();
   final HomeController _controller = sl<HomeController>();
   static const String routeName = '/home/page';
@@ -70,6 +72,7 @@ class HomePage extends StatelessWidget {
           child: ListView(
             children: [
               GetBuilder<HomeController>(
+                // id: 'home',
                   init: _controller,
                   builder: (_) {
                     return Column(

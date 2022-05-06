@@ -62,8 +62,9 @@ class NumberInput extends FormzInput<String?, NumberInputError> {
           return value.length >= start! ? null : NumberInputError.outRange;
         } else if (end != null) {
           return value.length <= end! ? null : NumberInputError.outRange;
-        } else
+        } else {
           return null;
+        }
       case 1:
         if (start != null && end != null) {
           return _tryParse(value)! >= start! && _tryParse(value)! <= end! ? null : NumberInputError.outRange;
@@ -71,8 +72,9 @@ class NumberInput extends FormzInput<String?, NumberInputError> {
           return _tryParse(value)! >= start! ? null : NumberInputError.outRange;
         } else if (end != null) {
           return _tryParse(value)! <= end! ? null : NumberInputError.outRange;
-        } else
+        } else {
           return null;
+        }
       default:
         return NumberInputError.empty;
     }

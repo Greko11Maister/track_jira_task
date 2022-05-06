@@ -14,7 +14,7 @@ class GoogleSheetsRepositoryImpl implements GoogleSheetsRepository{
   @override
   Future<Either<Failure, bool>> setTaskGsheet(TaskEntity task) async{
     try {
-      await remoteDataSource.SetTaskGsheets(task);
+      await remoteDataSource.setTaskGsheets(task);
       return const Right(true);
     }on ServerFailure catch (e){
       log('insert error',name:'repo impl');

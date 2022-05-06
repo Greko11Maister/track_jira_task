@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:track_jira_task/src/core/usecases/usecase.dart';
-import 'package:track_jira_task/src/features/data/DTOs/task_dto.dart';
 import 'package:track_jira_task/src/features/domain/entities/issues_entity.dart';
 import 'package:track_jira_task/src/features/domain/entities/task_entity.dart';
 import 'package:track_jira_task/src/features/domain/usecases/get_user_usecase.dart';
@@ -16,7 +14,7 @@ class TimerController extends GetxController {
   static const countdownDuration = Duration(seconds: 10);
   Rx<Duration> duration = const Duration().obs;
   Timer? timer;
-  // TaskDTO? _taskDTO;
+
 
   bool isCountdown = false;
   RxBool timerRunning = false.obs;
@@ -39,6 +37,12 @@ class TimerController extends GetxController {
 
   @override
   void onInit() {
+    loadUser();
+    update();
+  }
+
+  @override
+  void onReady() {
     loadUser();
     update();
   }

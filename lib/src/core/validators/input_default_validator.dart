@@ -12,8 +12,8 @@ class InputDefault extends FormzInput<String, InputDefaultError>{
   InputDefaultError? validator(String? value) {
     if(value?.length == 0) return InputDefaultError.empty;
     
-    if(value != null && this.maxLenght != null){
-      if(value.length > this.maxLenght!) return InputDefaultError.outOfRange;
+    if(value != null && maxLenght != null){
+      if(value.length > maxLenght!) return InputDefaultError.outOfRange;
     }
 
     return value?.isNotEmpty == true ? null : InputDefaultError.empty;

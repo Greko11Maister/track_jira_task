@@ -69,10 +69,11 @@ class ServerFailure extends Failure {
     }
 
     String pattern = r'(\<\w*)((\s\/\>)|(.*\<\/\w*\>))';
-    RegExp regExp = new RegExp(pattern);
+    RegExp regExp = RegExp(pattern);
 
-    if(regExp.hasMatch(_message))
+    if(regExp.hasMatch(_message)) {
       _message = 'Http status error [$_statusCode]';
+    }
 
     log(error.toString(),name: 'error');
     log(_statusCode.toString(),name: 'statusCode');
@@ -94,7 +95,7 @@ class CacheFailure extends Failure {
   CacheFailure([this.error, this.message]);
   CacheFailure get get {
     String message = error.toString();
-    log('$message', name: 'DatabaseException');
+    log(message, name: 'DatabaseException');
     return CacheFailure(
       error,
       message

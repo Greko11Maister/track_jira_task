@@ -34,7 +34,7 @@ class AppColors {
   /// Color(0xFF757575)
   static const Color greyThree = Color(0xFF757575);
   /// Color(0xFF5F5F5)
-  static  Color greyPage = Color(0xffF5F5F5);
+  static  Color greyPage = const Color(0xffF5F5F5);
 
   /// Color(0xFFFD3C65)
   static const Color red = Color(0xFFFD3C65);
@@ -171,11 +171,11 @@ class AppColors {
     switch (type) {
       case 211:
       case 213:
-        return Color(0XFF0D4DFF);
+        return const Color(0XFF0D4DFF);
       case 214:
-        return Color(0xffFF612B);
+        return const Color(0xffFF612B);
       default:
-        return Color(0XFF0D4DFF);
+        return const Color(0XFF0D4DFF);
     }
   }
 }

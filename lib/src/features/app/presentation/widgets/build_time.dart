@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:track_jira_task/src/features/app/presentation/controllers/timer_controller.dart';
@@ -12,6 +11,7 @@ Widget buildTime({IssuesEntity? issue}) {
 
   return GetBuilder<TimerController>(
     id: 'timer',
+    init: _controller,
     builder: (_) {
       return Obx(() {
         final hours = twoDigits(_.duration.value.inHours);
@@ -58,7 +58,7 @@ Widget buildTimeCard({required String time, required String header}) =>
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Color(0xffEBF2F4),
+            color: const Color(0xffEBF2F4),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
@@ -71,6 +71,6 @@ Widget buildTimeCard({required String time, required String header}) =>
           ),
         ),
         const SizedBox(height: 10),
-        Text(header, style: TextStyle(color: Colors.black87)),
+        Text(header, style: const TextStyle(color: Colors.black87)),
       ],
     );

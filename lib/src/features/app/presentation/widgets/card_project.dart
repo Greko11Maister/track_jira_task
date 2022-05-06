@@ -21,7 +21,7 @@ class CardProject extends StatelessWidget {
             }),
             radius: 25.0,
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           Text(name!, style: const TextStyle(fontSize: 20)),
         ],
       ),

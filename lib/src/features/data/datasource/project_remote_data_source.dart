@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:track_jira_task/src/core/error/failures.dart';
 import 'package:track_jira_task/src/core/http/api.dart';
@@ -34,7 +32,7 @@ class ProjectRemoteDataSourceImpl extends ApiProvider implements ProjectRemoteDa
   Future<List<IssuesModel>> getIssuesByProject(ProjectDTO params) async{
     try{
       final res = await dio!.get('/rest/api/3/issue/picker', queryParameters: params.queryParameters);
-      log('$res', name: 'Issues project');
+      // log('$res', name: 'Issues project');
       return (res.data ["sections"][0] ["issues"] as List)
           .map((e) => IssuesModel.fromJson(e))
           .toList();
@@ -48,7 +46,7 @@ class ProjectRemoteDataSourceImpl extends ApiProvider implements ProjectRemoteDa
   Future<List<IssuesModel>> getIssuesByQuery(IssuesQueryDTO params) async{
     try{
       final res = await dio!.get('/rest/api/3/issue/picker', queryParameters: params.queryParameters);
-      log('$res', name: 'Issues query');
+      // log('$res', name: 'Issues query');
       return (res.data ["sections"][0] ["issues"] as List)
           .map((e) => IssuesModel.fromJson(e))
           .toList();

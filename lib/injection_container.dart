@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:track_jira_task/src/core/database/collections_name.dart';
 import 'package:track_jira_task/src/features/app/presentation/controllers/auth_controller.dart';
@@ -21,8 +20,10 @@ import 'package:track_jira_task/src/features/domain/usecases/get_issues_by_query
 import 'package:track_jira_task/src/features/domain/usecases/get_projects_usecase.dart';
 import 'package:track_jira_task/src/features/domain/usecases/get_token_usecase.dart';
 import 'package:track_jira_task/src/features/domain/usecases/get_user_usecase.dart';
+import 'package:track_jira_task/src/features/domain/usecases/get_username_usecase.dart';
 import 'package:track_jira_task/src/features/domain/usecases/set_task_gsheet_usecase.dart';
 import 'package:track_jira_task/src/features/domain/usecases/set_token_usecase.dart';
+import 'package:track_jira_task/src/features/domain/usecases/set_username_usecase.dart';
 import 'package:track_jira_task/src/features/domain/usecases/update_task_gsheets_usecase.dart';
 
 final sl = GetIt.instance;
@@ -32,8 +33,7 @@ Future<void> init() async {
   sl.registerFactory(() => HomeController(
         getProjectUseCase: sl(),
         getIssuesUseCase: sl(),
-        getUserUseCase: sl(),
-    getIssuesByQueryUseCase: sl(),
+        getIssuesByQueryUseCase: sl(),
       ));
 
   sl.registerFactory(() => TimerController(
@@ -43,11 +43,14 @@ Future<void> init() async {
       ));
 
   sl.registerFactory(() => ConfigurationController(
-        getTokenUseCase: sl(),
         setTokenUseCase: sl(),
+        setUsernameUseCase: sl(),
       ));
 
-  sl.registerFactory(() => AuthController(getTokenUseCase: sl()));
+  sl.registerFactory(() => AuthController(
+      getTokenUseCase: sl(),
+      getUsernameUseCase: sl(),
+  ));
 
   //Use Cases
   sl.registerLazySingleton(() => GetProjectUseCase(sl()));
@@ -55,6 +58,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetIssuesByQueryUseCase(sl()));
   sl.registerLazySingleton(() => GetTokenUseCase(sl()));
   sl.registerLazySingleton(() => SetTokenUseCase(sl()));
+  sl.registerLazySingleton(() => GetUsernameUseCase(sl()));
+  sl.registerLazySingleton(() => SetUsernameUseCase(sl()));
   sl.registerLazySingleton(() => SetTaskGSheetsUseCase(sl()));
   sl.registerLazySingleton(() => UpdateTaskGSheetsUseCase(sl()));
   sl.registerLazySingleton(() => GetUserUseCase(sl()));
@@ -81,10 +86,12 @@ Future<void> init() async {
   sl.registerLazySingleton<GoogleSheetsRemoteDataSource>(
       () => GoogleSheetsRemoteDataSourceImpl());
 
+
   await Hive.initFlutter();
   //Adapters
   Hive.registerAdapter(AuthAdapterAdapter());
 
   //Open Box
   await Hive.openBox<String>(Collections.tokens);
+  await Hive.openBox<String>(Collections.username);
 }

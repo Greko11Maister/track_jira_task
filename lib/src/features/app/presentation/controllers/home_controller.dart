@@ -12,28 +12,24 @@ import 'package:track_jira_task/src/features/domain/entities/user_entity.dart';
 import 'package:track_jira_task/src/features/domain/usecases/get_issues_by_project_usecase.dart';
 import 'package:track_jira_task/src/features/domain/usecases/get_issues_by_query_usecase.dart';
 import 'package:track_jira_task/src/features/domain/usecases/get_projects_usecase.dart';
-import 'package:track_jira_task/src/features/domain/usecases/get_user_usecase.dart';
 
 
 class HomeController extends GetxController {
   final GetProjectUseCase _getProjectUseCase;
   final GetIssuesByProjectUseCase _getIssuesByProjectUseCase;
   final GetIssuesByQueryUseCase _getIssuesByQueryUseCase;
-  final GetUserUseCase _getUserUseCase;
+
 
   TextEditingController projectsCtrl = TextEditingController();
   final searchCtrl = TextEditingController();
-  // TextEditingController userCtrl = TextEditingController();
   String? id;
   String? projectId;
 
   RxList<ProjectsEntity> projects = <ProjectsEntity>[].obs;
   RxList<IssuesEntity> issues = <IssuesEntity>[].obs;
-  // RxList<UserEntity> user= <UserEntity>[].obs;
 
   IssuesEntity? issuesEntity;
   UserEntity? userEntity;
-  // IssuesQueryDTO? issuesQueryDTO;
 
   RxBool isProjectsLoading = false.obs;
   RxBool projectSelected = false.obs;
@@ -42,33 +38,16 @@ class HomeController extends GetxController {
   HomeController({
     required GetProjectUseCase getProjectUseCase,
     required GetIssuesByProjectUseCase getIssuesUseCase,
-    required GetUserUseCase getUserUseCase,
     required GetIssuesByQueryUseCase getIssuesByQueryUseCase,
   }) : _getProjectUseCase = getProjectUseCase,
   _getIssuesByProjectUseCase = getIssuesUseCase,
-  _getUserUseCase = getUserUseCase,
   _getIssuesByQueryUseCase = getIssuesByQueryUseCase;
 
   @override
-  void onInit() {
-    // loadUser();
-    // loadIssuesByQuery();
-    super.onInit();
-  }
-
-  @override
   void onReady() {
-     // loadUser();
     loadProjects();
-    update();
+    // update(['home']);
   }
-
-  // set setUserSelected(UserEntity value){
-  //   userCtrl.text = value.name!;
-  //   log('usuario seleccionado: ${value.name}, id: ${value.id}',name: 'Usuario del controlador');
-  //   // loadIssuesByProject(value.id!);
-  //   update();
-  // }
 
   set setProjectSelected(ProjectsEntity value) {
       projectsCtrl.text = value.name!;
@@ -132,22 +111,7 @@ class HomeController extends GetxController {
         update();
       });
     }
-
-    // IssuesQueryDTO params = IssuesQueryDTO(query: queryTxt, idProject: projectId);
-    // final res = await _getIssuesByQueryUseCase.call(params);
-    //
-    // res.fold((l) {
-    //   log('$l', name: 'Error Issues Query');
-    // }, (r) {
-    //   issues.clear();
-    //   issues.addAll(r);
-    //   update();
-    // });
   }
 
-  // void getIssueData(){
-  //   var item = issues.firstWhere((e) => Get.arguments==e.id);
-  //   issuesEntity = item;
-  // }
 
 }
