@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:track_jira_task/src/core/usecases/usecase.dart';
-import 'package:track_jira_task/src/features/app/presentation/pages/configuration_page.dart';
-import 'package:track_jira_task/src/features/app/presentation/pages/home_page.dart';
 import 'package:track_jira_task/src/features/domain/usecases/get_token_usecase.dart';
 import 'package:track_jira_task/src/features/domain/usecases/get_username_usecase.dart';
 
@@ -11,8 +8,6 @@ class AuthController extends GetxController {
   final GetTokenUseCase _getTokenUseCase;
   final GetUsernameUseCase _getUsernameUseCase;
 
-  // RxString tokenConf = ''.obs;
-  // RxString usernameConf = ''.obs;
   String? _token;
   String? _username;
 
@@ -35,7 +30,7 @@ class AuthController extends GetxController {
     loadToken();
     loadUsername();
 
-    //TODO: usecase
+    //Validación credenciales en Hive
     final res1 = await _getTokenUseCase.call(NoParams());
     res1.fold((l) => null, (r) {
       _token = r;
@@ -48,19 +43,16 @@ class AuthController extends GetxController {
     });
     // log('$_username', name: 'User Init Auth');
     if(_token==null && _username==null){
-      await Get.to(ConfigurationPage());
-      // Get.toNamed("/configuration/page");
+      Get.offNamed("/configuration/page");
     }else{
-     await Get.to(HomePage());
-     //  Get.toNamed("/home/page");
+     Get.offNamed("/home/page");
     }
   }
 
   loadToken() async{
     final res = await _getTokenUseCase.call(NoParams());
     res.fold((l) => null, (r) {
-      log('$r',name: 'Token Auth cntrl');
-      // tokenConf.value = r!;
+      // log('$r',name: 'Token Auth cntrl');
       _token = r;
       update();
     });
@@ -69,8 +61,7 @@ class AuthController extends GetxController {
   loadUsername() async{
     final res = await _getUsernameUseCase.call(NoParams());
     res.fold((l) => null, (r) {
-      log('$r',name: 'Username Auth cntrl');
-      // usernameConf.value = r!;
+      // log('$r',name: 'Username Auth cntrl');
       _username = r;
       update();
     });
