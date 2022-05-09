@@ -30,7 +30,6 @@ class GoogleSheetsRemoteDataSourceImpl extends ApiProvider implements GoogleShee
 
   @override
   Future<void> setTaskGsheets(TaskEntity task) async{
-
     //Iniciar GSheets
     final gsheets = GSheets(_credentials/*sl<Env>().api*/);
     //Obtener hoja de cálculo por Id

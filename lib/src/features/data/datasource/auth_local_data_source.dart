@@ -17,7 +17,7 @@ class AuthLocalDataSourceImpl extends AuthLocalDataSource {
     // var box = await Hive.box(Collections.tokens);
     Box<String> box = Hive.box<String>(Collections.tokens);
     String? token = box.get('token');
-    log(token!, name: 'getToken hive');
+    // log(token!, name: 'getToken hive');
     return box.get('token');
   }
 
@@ -25,7 +25,7 @@ class AuthLocalDataSourceImpl extends AuthLocalDataSource {
   Future<String?> getUsername() async{
     Box<String> box2 = Hive.box<String>(Collections.username);
     String? username = box2.get('username');
-    log(username!, name: 'username hive');
+    // log(username!, name: 'username hive');
     return box2.get('username');
   }
 
