@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:track_jira_task/src/features/app/presentation/controllers/auth_controller.dart';
+import 'package:track_jira_task/src/features/app/presentation/controllers/home_controller.dart';
 import 'package:track_jira_task/src/features/app/presentation/controllers/timer_controller.dart';
 import 'package:track_jira_task/src/features/domain/usecases/set_token_usecase.dart';
 import 'package:track_jira_task/src/features/domain/usecases/set_username_usecase.dart';
@@ -12,6 +13,7 @@ class ConfigurationController extends GetxController {
 
   late AuthController _authController;
   late TimerController _timerController;
+  late HomeController _homeController;
 
   final tokenCtrl = TextEditingController();
   final userNameCtrl = TextEditingController();
@@ -28,6 +30,7 @@ class ConfigurationController extends GetxController {
   void onReady() {
     _authController = Get.find<AuthController>();
     _timerController = Get.find<TimerController>();
+    _homeController = Get.find<HomeController>();
     super.onReady();
     // update(['home']);
   }
@@ -39,6 +42,7 @@ class ConfigurationController extends GetxController {
     _authController.loadToken();
     _authController.loadUsername();
     _timerController.loadUser();
+    _homeController.loadProjects();
     update();
   }
 }

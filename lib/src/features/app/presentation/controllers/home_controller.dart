@@ -68,6 +68,7 @@ class HomeController extends GetxController {
       log('$l', name: 'Error Projects');
       isProjectsLoading.value = false;
     }, (r) {
+      projects.clear();
       projects.addAll(r);
       isProjectsLoading.value = false;
       update();
